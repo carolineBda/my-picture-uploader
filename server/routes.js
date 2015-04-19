@@ -1,11 +1,10 @@
 'use strict';
 
+var userController = require('./api/user');
+
 module.exports = function(app) {
+  app.post('/api/user', userController.create);
 
-  // Insert routes below
-  app.use('/api/things', require('./api/thing'));
-
-  // All other routes should redirect to the index.html
   app.route('/*')
     .get(function(req, res) {
       res.sendfile(app.get('appPath') + '/index.html');
