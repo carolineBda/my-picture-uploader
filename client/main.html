@@ -5,10 +5,13 @@
     <p class="lead">Please fill the following</p>
 
     <div class="alert alert-danger" role="alert" ng-show="errorMessage">
-      {{errorMessage}}
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{errorMessage}}
     </div>
     <div class="alert alert-success" role="alert" ng-show="successMessage">
       <strong>Well done {{firstName}}! </strong>{{successMessage}}
+    </div>
+    <div class="alert alert-info" role="alert" ng-show="loading">
+      <img id="spinner" ng-src="http://www.mytreedb.com/uploads/mytreedb/loader/ajax_loader_blue_32.gif"> <strong>Loading</strong>
     </div>
     <form ng-hide="successMessage" ng-submit="sendUser()">
       <div class="row">
@@ -36,6 +39,15 @@
           </div>
         </div>
 
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="picture">Profile Picture</label>
+            <input type="file" id="picture" required ng-model="picture" file-upload accept="image/*" />
+            <span class="glyphicon glyphicon-ok text-success" ng-show="pictureOk" aria-hidden="true"></span>
+          </div>
+        </div>
       </div>
       <div class="row">
         <div class="col-md-12">
