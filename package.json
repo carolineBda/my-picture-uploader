@@ -4,6 +4,7 @@
   "main": "server/app.js",
   "dependencies": {
     "body-parser": "~1.5.0",
+    "bower": "^1.4.1",
     "compression": "~1.0.1",
     "errorhandler": "~1.0.0",
     "express": "~4.0.0",
@@ -71,10 +72,11 @@
     "time-grunt": "~0.3.1"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": "0.10.x"
   },
   "scripts": {
-    "start": "./node_modules/grunt-cli/bin/grunt server",
+    "start": "node ./server/app.js",
+    "postinstall": "./node_modules/bower/bin/bower install",
     "test": "grunt test",
     "update-webdriver": "node node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update"
   },
