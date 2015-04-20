@@ -3,6 +3,12 @@
 var request = require('request');
 var GEOIP_URL = 'https://freegeoip.net/json/';
 
+var sendgrid  = require('sendgrid')(process.env.SENDGRID_USERNAME, process.env.SENDGRID_PASSWORD);
+var email     = {
+  from:     'my-picture-uploader@bda-solutions.co.uk',
+  text:     'You have successfully upload your information,\nThank you.'
+};
+
 function isBodyValid(body) {
   return (body.firstName && body.lastName && body.email);
 }
@@ -16,7 +22,7 @@ function isFromUK(body) {
   return geoInfo && geoInfo.country_code === 'GB';
 }
 
-module.exports.create = function (req, res) {
+module.exports.create = function (req, res, next) {
   var body = req.body;
   if (!isBodyValid(body)) {
     return res.send(400);
@@ -29,6 +35,13 @@ module.exports.create = function (req, res) {
     if (!isFromUK(body)) {
       return res.send(401, {message: 'User country not allowed'});
     }
-    return res.send(200);
+    email.to = body.email;
+    email.subject = 'Welcome' + body.firstName;
+
+    sendgrid.send(email, function(err) {
+      if (err) return next(err);
+      return res.send(200);
+    });
+
   });
 };

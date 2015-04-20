@@ -2,32 +2,43 @@
 
 var app = require('../../server/app');
 var request = require('supertest');
+var should = require('should');
 var unroll = require('unroll');
 var nock = require('nock');
 nock.enableNetConnect('127.0.0.1');
 
-describe('POST /api/user', function() {
+describe('POST /api/user', function () {
   var BRITISH_IP = '195.47.223.87';
+  var mockSender;
 
-  beforeEach(function() {
+  beforeEach(function () {
     nock('https://freegeoip.net')
       .get('/json/' + BRITISH_IP)
       .reply(200, {
         ip: BRITISH_IP,
         country_code: 'GB'
       });
+     mockSender = nock('https://api.sendgrid.com:443')
+      .filteringRequestBody(function() {
+        return '*';
+      })
+      .post('/api/mail.send.json', '*')
+      .reply(200, { message: "success" });
   });
 
-  it('should respond OK when all parameters sent and IP from GB', function(done) {
+  it('should respond OK when all parameters sent and IP from GB', function (done) {
     request(app)
       .post('/api/user')
       .set('X-Forwarded-For', BRITISH_IP)
-      .send({firstName:'Jenny', lastName: 'Johns', email: 'bla'})
+      .send({firstName: 'Jenny', lastName: 'Johns', email: 'bla'})
       .expect(200)
-      .end(done);
+      .end(function(err){
+        should(mockSender.isDone()).be.ok;
+        done(err);
+      });
   });
 
-  unroll('should respond bad request if one field missing', function(done, args) {
+  unroll('should respond bad request if one field missing', function (done, args) {
     request(app)
       .post('/api/user')
       .send(args.body)
@@ -35,12 +46,12 @@ describe('POST /api/user', function() {
       .end(done);
   }, [
     ['body'],
-    [{firstName:'Jenny', lastName: 'Johns'}],
-    [{firstName:'Jenny', email: 'bla'}],
-    [{lastName:'Jenny', email: 'bla'}]
+    [{firstName: 'Jenny', lastName: 'Johns'}],
+    [{firstName: 'Jenny', email: 'bla'}],
+    [{lastName: 'Jenny', email: 'bla'}]
   ]);
 
-  it('should respond Unauthorised when freegeoip respond not in UK', function(done) {
+  it('should respond Unauthorised when freegeoip respond not in UK', function (done) {
     var FRENCH_IP = '92.222.46.207';
     nock('https://freegeoip.net')
       .get('/json/' + FRENCH_IP)
@@ -53,7 +64,7 @@ describe('POST /api/user', function() {
     request(app)
       .post('/api/user')
       .set('X-Forwarded-For', FRENCH_IP)
-      .send({firstName:'Jenny', lastName: 'Johns', email: 'bla'})
+      .send({firstName: 'Jenny', lastName: 'Johns', email: 'bla'})
       .expect(401, {message: 'User country not allowed'}, done);
   });
 });
