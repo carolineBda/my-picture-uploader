@@ -23,9 +23,10 @@ function isFromUK(body) {
 }
 
 module.exports.create = function (req, res, next) {
-  var body = req.body;
-  if (!isBodyValid(body)) {
-    return res.send(400);
+  var fields = req.body;
+
+  if (!isBodyValid(fields)) {
+    return res.send(400, {message: 'Fields missing'});
   }
 
   var userIP = getUserIp(req.headers['x-forwarded-for']);
@@ -35,8 +36,8 @@ module.exports.create = function (req, res, next) {
     if (!isFromUK(body)) {
       return res.send(401, {message: 'User country not allowed'});
     }
-    email.to = body.email;
-    email.subject = 'Welcome' + body.firstName;
+    email.to = fields.email;
+    email.subject = 'Welcome ' + fields.firstName;
 
     sendgrid.send(email, function(err) {
       if (err) return next(err);

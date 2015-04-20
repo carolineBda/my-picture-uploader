@@ -18,11 +18,20 @@ angular.module('pictureUploaderApp', [
     $locationProvider.html5Mode(true);
   })
   .controller('MainCtrl', function ($scope, $http) {
-    $scope.awesomeThings = [];
-
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
-    });
-
+    $scope.sendUser = function () {
+      var user = {
+        firstName: $scope.firstName,
+        lastName: $scope.lastName,
+        email: $scope.email
+      };
+      $http.post('/api/user', user)
+        .success(function () {
+          delete $scope.errorMessage;
+          $scope.successMessage = 'A confirmation email has been sent to you.';
+        })
+        .error(function(err) {
+          $scope.errorMessage = err.message;
+        });
+    };
   });
 

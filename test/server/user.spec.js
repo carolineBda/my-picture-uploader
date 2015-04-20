@@ -23,7 +23,7 @@ describe('POST /api/user', function () {
         return '*';
       })
       .post('/api/mail.send.json', '*')
-      .reply(200, { message: "success" });
+      .reply(200, { message: 'success' });
   });
 
   it('should respond OK when all parameters sent and IP from GB', function (done) {
