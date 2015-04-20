@@ -1,6 +1,6 @@
 'use strict';
 
-var app = require('../app');
+var app = require('../../server/app');
 var request = require('supertest');
 var unroll = require('unroll');
 var nock = require('nock');
