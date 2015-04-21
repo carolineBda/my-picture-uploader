@@ -21,7 +21,7 @@ describe('Main View', function() {
     expect(page.loading.isDisplayed()).toBe(false);
   });
 
-  it('should show errors when filds missing', function() {
+  it('should show errors when picture do not contains a face', function() {
     page.firstName.sendKeys('Jane');
     page.lastName.sendKeys('Perry');
     page.email.sendKeys('j.p@example.com');
