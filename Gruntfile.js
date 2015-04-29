@@ -480,7 +480,19 @@ module.exports = function (grunt) {
         }
       }
     },
+    casper : {
+      functional : {
+        options : {
+          test : true
+        },
+        files : {
+          'test/casper-results.xml' : ['test/functional/main.spec.js']
+        }
+      }
+    }
   });
+
+
 
   // Used for delaying livereload until after server has restarted
   grunt.registerTask('wait', function () {
@@ -564,6 +576,18 @@ module.exports = function (grunt) {
         'autoprefixer',
         'express:dev',
         'protractor'
+      ]);
+    } else if (target === 'casper') {
+      return grunt.task.run([
+        'clean:server',
+        'env:all',
+        'env:test',
+        'concurrent:test',
+        'injector',
+        'wiredep',
+        'autoprefixer',
+        'express:dev',
+        'casper'
       ]);
     }
 

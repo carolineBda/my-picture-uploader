@@ -12,5 +12,8 @@ If it is valid, the server send an email to the user confirming their account is
     grunt test:server
     
 ### e2e (protractor)
-    grunt test:e2e
+    grunt test:e2e  
+      
+### casperjs 
+    grunt test:casper
   

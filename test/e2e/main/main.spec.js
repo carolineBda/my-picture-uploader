@@ -3,8 +3,8 @@ var path = require('path');
 
 describe('Main View', function() {
   var page;
-  var facePicture =  path.resolve(__dirname, '../resources/faces.jpg');
-  var noFacePicture =  path.resolve(__dirname, '../resources/no-faces.jpg');
+  var facePicture =  path.resolve(__dirname, '../../resources/faces.jpg');
+  var noFacePicture =  path.resolve(__dirname, '../../resources/no-faces.jpg');
 
   beforeEach(function() {
     browser.get('/');
