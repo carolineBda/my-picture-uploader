@@ -14,6 +14,6 @@ If it is valid, the server send an email to the user confirming their account is
 ### e2e (protractor)
     grunt test:e2e  
       
-### casperjs 
+### functional (casperjs) 
     grunt test:casper
   
