@@ -11,9 +11,21 @@ If it is valid, the server send an email to the user confirming their account is
 ### Server side (mocha)
     grunt test:server
     
-### e2e (protractor)
-    grunt test:e2e  
-      
-### functional (casperjs) 
-    grunt test:casper
+### Functional    
+Run the app in on terminal
+
+    SENDGRID_USERNAME=XXX@heroku.com SENDGRID_PASSWORD=XXX npm start
+
+Then
+
+#### e2e (protractor)
+
+    npm run e2e-test 
+    
+First time run
+
+    npm run update-webdriver && npm run start-webdriver
+    
+#### casperjs 
+    npm run func-test
   

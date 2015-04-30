@@ -4,6 +4,8 @@
 'use strict';
 
 exports.config = {
+  seleniumAddress: 'http://localhost:4444/wd/hub',
+
   // The timeout for each script run on the browser. This should be longer
   // than the maximum time your application needs to stabilize between tasks.
   allScriptsTimeout: 110000,

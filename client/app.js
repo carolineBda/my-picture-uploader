@@ -1,8 +1,6 @@
 'use strict';
 
 angular.module('pictureUploaderApp', [
-  'ngResource',
-  'ngSanitize',
   'ngRoute'
 ])
   .config(function ($routeProvider, $locationProvider) {
